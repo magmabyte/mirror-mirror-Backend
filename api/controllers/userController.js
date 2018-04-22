@@ -15,12 +15,16 @@ exports.get = function(req, res) {
 };
 
 exports.update = function(req, res) {
-  User.findOneAndUpdate({_id: req.params.userId},
+  User.findOneAndUpdate({ _id: req.params.userId },
                         req.query,
-                        {new: true},
+                        { new: true },
                         utility.returnErrorOrIdentity(res));
 };
 
 exports.delete = function(req, res) {
   User.remove({ _id: req.params.userId }, utility.returnErrorOrSuccess(res));
 };
+
+exports.getAll = function(req, res) {
+  User.find({}, utility.returnErrorOrIdentity(res));
+}

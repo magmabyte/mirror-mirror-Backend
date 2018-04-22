@@ -3,7 +3,8 @@ module.exports = function(app) {
   var chains = require('../controllers/chainController');
 
   app.route('/chains')
-    .post(chains.get);
+    .post(chains.create)
+    .get(chains.getAll);
 
   app.route('/chainsRandom')
     .get(chains.random);

@@ -1,10 +1,15 @@
 
 var returnErrorOrUseHandler =
-  function(res, handler) {
-    return function(err, res) {
-      if (err)
-        res.json(err);
-      handler(res);
+  function(handler) {
+    return function(res) {
+      return function(err, queryRes) {
+        if (err) {
+          res.json({ message: "Error handling request" })
+          throw(err);
+        }
+        
+        handler(res, queryRes);
+      }
     }
   };
 
@@ -12,11 +17,16 @@ exports.returnErrorOrUseHandler =
   returnErrorOrUseHandler;
 
 exports.returnErrorOrIdentity =
-  returnErrorOrUseHandler(function(res) {
-    res.json(user);
+  returnErrorOrUseHandler(function(res, queryRes) {
+    res.json(queryRes);
   });
 
 exports.returnErrorOrSuccess =
-  returnErrorOrUseHandler(function(res) {
+  returnErrorOrUseHandler(function(res, queryRes) {
     res.json({ message: 'Success' });
   });
+
+var mongoose = require('mongoose');
+String.prototype.toObjectId = function() {
+  return new mongoose.Types.ObjectId(this.toString());
+};
