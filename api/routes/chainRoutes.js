@@ -9,9 +9,6 @@ module.exports = function(app) {
   app.route('/chainsRandom')
     .get(chains.random);
 
-  app.route('/chains/:chainId')
-    .get(chains.get);
-
   app.route('/chains/:chainId/pictures')
     .post(chains.createNextPicture)
     .get(chains.getPictures);

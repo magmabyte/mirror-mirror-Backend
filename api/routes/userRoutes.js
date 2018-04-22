@@ -7,7 +7,5 @@ module.exports = function(app) {
     .get(users.getAll);
 
   app.route('/users/:userId')
-    .get(users.get)
-    .put(users.update)
-    .delete(users.delete);
+    .get(users.get);
 };

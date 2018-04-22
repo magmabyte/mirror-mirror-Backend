@@ -27,7 +27,13 @@ exports.random = function(req, res) {
 
 exports.getPictures = function(req, res) {
   var chainId = req.params.chainId;
-  ChainPicture.find({"chain_id": chainId.toObjectId()}, utility.returnErrorOrIdentity(res));
+  if (req.query.onlyLast !== undefined && req.query.onlyLast === "true")
+    ChainPicture.find({"chain_id": chainId.toObjectId()},
+      utility.returnErrorOrUseHandler(function(res, queryRes) {
+        res.send(queryRes[queryRes.length - 1])
+      })(res));
+  else
+    ChainPicture.find({"chain_id": chainId.toObjectId()}, utility.returnErrorOrIdentity(res));
 }
 
 exports.createNextPicture = function(req, res) {
